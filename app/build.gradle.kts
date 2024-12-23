@@ -7,7 +7,8 @@
 
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
-    application
+    java
+    war
 }
 
 repositories {
@@ -16,11 +17,17 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit test framework.
-    testImplementation(libs.junit)
+    compileOnly("jakarta.platform:jakarta.jakartaee-api:10.0.0")
+    compileOnly("jakarta.platform:jakarta.jakartaee-web-api:10.0.0")
+    compileOnly("jakarta.enterprise:jakarta.enterprise.cdi-api:4.1.0")
+    compileOnly("jakarta.enterprise:jakarta.enterprise.cdi-api:4.1.0")
+    compileOnly("jakarta.persistence:jakarta.persistence-api:3.2.0")
+    compileOnly("jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.2")
+    compileOnly("jakarta.xml.ws:jakarta.xml.ws-api:4.0.2")
 
-    // This dependency is used by the application.
-    implementation(libs.guava)
+    // Use JUnit Jupiter for testing.
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -30,7 +37,8 @@ java {
     }
 }
 
-application {
-    // Define the main class for the application.
-    mainClass = "org.example.App"
+tasks.named<Test>("test") {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
 }
+
